@@ -320,7 +320,21 @@
                 timestamp: new Date().toISOString()
             };
             
-            console.log('Registration Data:', formData);
+            // Send to Google Apps Script
+            fetch('https://script.google.com/macros/s/AKfycbwsWd5Nr6_0W9NMkS34Tdw4OeQe2Beocfm7_X3SSzCqCYIpEwIfcT0aw3XoVZ-yuOPwtA/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(() => {
+                console.log('Data sent successfully');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
             
             document.getElementById('successModal').style.display = 'flex';
         });
