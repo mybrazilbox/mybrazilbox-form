@@ -294,7 +294,7 @@
         let fullAddress = '';
         
         document.getElementById('registrationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+         e.preventDefault();   
             
             const firstName = document.getElementById('firstName').value;
             const lastName = document.getElementById('lastName').value;
@@ -308,6 +308,20 @@
             document.getElementById('usAddress').innerHTML = fullAddress.replace(/\n/g, '<br>');
             document.getElementById('hiddenSuite').value = generatedSuite;
             document.getElementById('hiddenAddress').value = fullAddress;
+            // Submit form to Formspree
+            fetch(e.target.action, {
+                method: 'POST',
+                body: new FormData(e.target),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Form submitted to Formspree successfully');
+                }
+            }).catch(error => {
+                console.error('Error submitting to Formspree:', error);
+            });
             
             const formData = {
                 firstName: firstName,
