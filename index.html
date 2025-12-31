@@ -164,7 +164,9 @@
             <p>Receba seu número de suite americano na hora!</p>
         </div>
         
-        <form id="registrationForm">
+        <form id="registrationForm" action="https://formspree.io/f/71db44ca-1119-495e-9574-4b12af34a6df" method="POST">
+            <input type="hidden" name="suiteNumber" id="hiddenSuite">
+            <input type="hidden" name="usAddress" id="hiddenAddress">
             <div class="form-group">
                 <label>Nome <span class="required">*</span></label>
                 <input type="text" id="firstName" required>
@@ -303,6 +305,8 @@
             
             document.getElementById('suiteNumber').textContent = generatedSuite;
             document.getElementById('usAddress').innerHTML = fullAddress.replace(/\n/g, '<br>');
+            document.getElementById('hiddenSuite').value = generatedSuite;
+            document.getElementById('hiddenAddress').value = fullAddress;
             
             const formData = {
                 firstName: firstName,
@@ -319,22 +323,6 @@
                 usAddress: fullAddress,
                 timestamp: new Date().toISOString()
             };
-            
-            // Send to Google Apps Script
-            fetch('https://script.google.com/macros/s/AKfycbwsWd5Nr6_0W9NMkS34Tdw4OeQe2Beocfm7_X3SSzCqCYIpEwIfcT0aw3XoVZ-yuOPwtA/exec', {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(() => {
-                console.log('Data sent successfully');
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
             
             document.getElementById('successModal').style.display = 'flex';
         });
